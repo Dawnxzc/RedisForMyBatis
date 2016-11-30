@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.mybatis.mappers.CustMapper" >
+  <resultMap id="BaseResultMap" type="com.atguigu.mybatis.entities.Cust" >
+    <id column="cust_id" property="custId" jdbcType="INTEGER" />
+    <result column="cust_name" property="custName" jdbcType="CHAR" />
+    <result column="cust_age" property="custAge" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    cust_id, cust_name, cust_age
+  </sql>
+  
+  <!-- 配置二级缓存 -->
+  <cache eviction="FIFO" type="com.atguigu.mybatis.cache.MyBatisRedisCache" 
+  		 flushInterval="60000" readOnly="true" size="512"></cache>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_cust
+    where cust_id = #{custId,jdbcType=INTEGER}
+  </select>
+  
+</mapper>
